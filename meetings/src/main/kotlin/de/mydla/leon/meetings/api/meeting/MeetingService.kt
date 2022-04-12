@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 
 @Service
 class MeetingService(
-    private val meetingRepository: MeetingRepository
+    private val meetingRepository: MeetingRepository,
 ) {
 
     fun getAllMeetings(): List<Meeting> =

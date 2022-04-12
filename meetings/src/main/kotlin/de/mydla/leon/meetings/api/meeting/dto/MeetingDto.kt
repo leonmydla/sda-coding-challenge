@@ -9,7 +9,7 @@ data class MeetingDto(
     val id: Long,
     val person: MinimalPersonDto,
     val dateTime: LocalDateTime,
-    val coordinates: String
+    val coordinates: String,
 )
 
 fun Meeting.toDto(): MeetingDto =

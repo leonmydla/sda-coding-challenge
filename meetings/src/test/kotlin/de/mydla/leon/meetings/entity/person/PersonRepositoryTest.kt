@@ -11,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles
 @ActiveProfiles("test")
 open class PersonRepositoryTest(
     @Autowired
-    val personRepository: PersonRepository
+    val personRepository: PersonRepository,
 ) {
 
     @Test

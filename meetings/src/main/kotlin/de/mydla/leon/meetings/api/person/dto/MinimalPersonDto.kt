@@ -4,7 +4,7 @@ import de.mydla.leon.meetings.entity.person.Person
 
 data class MinimalPersonDto(
     val id: Long?,
-    val name: String
+    val name: String,
 )
 
 fun Person.toMinimalDto(): MinimalPersonDto =

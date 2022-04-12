@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class PersonService(
-    private val personRepository: PersonRepository
+    private val personRepository: PersonRepository,
 ) {
 
     fun getAllPersons() =

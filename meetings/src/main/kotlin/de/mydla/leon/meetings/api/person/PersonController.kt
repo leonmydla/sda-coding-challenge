@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/person")
 class PersonController(
-    private val personService: PersonService
+    private val personService: PersonService,
 ) {
 
     @GetMapping
@@ -23,9 +23,9 @@ class PersonController(
     @PostMapping
     fun createPerson(
         @RequestBody
-        newPerson: NewPersonDto
+        newPerson: NewPersonDto,
     ): MinimalPersonDto = with(newPerson) {
-        if(name.isEmpty()) {
+        if (name.isEmpty()) {
             throw IllegalArgumentException()
         }
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/meeting")
 class MeetingController(
     private val personService: PersonService,
-    private val meetingService: MeetingService
+    private val meetingService: MeetingService,
 ) {
 
     @GetMapping
@@ -25,7 +25,7 @@ class MeetingController(
     @PostMapping
     fun createMeeting(
         @RequestBody
-        newMeetingDto: NewMeetingDto
+        newMeetingDto: NewMeetingDto,
     ): MeetingDto = with(newMeetingDto) {
         val person = personService.getPerson(personId)
 

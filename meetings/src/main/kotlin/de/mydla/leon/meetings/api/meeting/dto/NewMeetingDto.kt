@@ -5,5 +5,5 @@ import java.time.LocalDateTime
 data class NewMeetingDto(
     val personId: Long,
     val dateTime: LocalDateTime,
-    val coordinates: String
+    val coordinates: String,
 )

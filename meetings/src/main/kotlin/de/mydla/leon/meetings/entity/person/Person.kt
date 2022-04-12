@@ -18,6 +18,6 @@ class Person(
     var name: String,
 
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
-    var meetings: List<Meeting>? = null
+    var meetings: List<Meeting>? = null,
 
-)
+    )

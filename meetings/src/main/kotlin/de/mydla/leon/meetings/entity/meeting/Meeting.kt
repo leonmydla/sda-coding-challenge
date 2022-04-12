@@ -23,6 +23,6 @@ class Meeting(
 
     var dateTime: LocalDateTime,
 
-    var coordinates: String
+    var coordinates: String,
 
-)
+    )

@@ -16,7 +16,7 @@ open class MeetingRepositoryTest(
     @Autowired
     val meetingRepository: MeetingRepository,
     @Autowired
-    val personRepository: PersonRepository
+    val personRepository: PersonRepository,
 ) {
 
     @Test

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS person (
 CREATE TABLE IF NOT EXISTS meeting (
     id          BIGSERIAL,
     person_id   BIGINT      NOT NULL,
-    date_time   TIMESTAMP NOT NULL,
+    date_time   TIMESTAMP   NOT NULL,
     coordinates VARCHAR(64) NOT NULL,
 
     PRIMARY KEY (id),
