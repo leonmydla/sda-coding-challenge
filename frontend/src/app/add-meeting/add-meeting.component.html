@@ -1,0 +1,56 @@
+<mat-card>
+  <mat-card-title>I've met someone</mat-card-title>
+
+  <ng-container *ngIf="loading else autocompleteLoaded">
+    <mat-card-content>
+      <mat-spinner></mat-spinner>
+    </mat-card-content>
+  </ng-container>
+
+  <ng-template #autocompleteLoaded>
+    <mat-card-content>
+      <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div class="questions">
+
+          <mat-form-field>
+            <mat-label>Who</mat-label>
+            <input matInput
+                   formControlName="person"
+                   [matAutocomplete]="whoAutocomplete">
+            <mat-autocomplete #whoAutocomplete="matAutocomplete">
+              <mat-option *ngFor="let person of autocompletePersons | async"
+                          [value]="person.name">
+                {{ person.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>When</mat-label>
+            <input matInput
+                   formControlName="dateTime"
+                   type="datetime-local">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Where</mat-label>
+            <input matInput
+                   formControlName="coordinates">
+          </mat-form-field>
+
+          <button class="submit"
+                  mat-raised-button
+                  color="primary"
+                  type="submit">
+            Submit
+          </button>
+
+        </div>
+      </form>
+
+      <p *ngIf="error">
+        An error occured while saving the meeting.
+      </p>
+    </mat-card-content>
+  </ng-template>
+</mat-card>
