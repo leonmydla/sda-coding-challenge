@@ -1,8 +1,8 @@
-INSERT INTO person (id, name)
-VALUES (1, 'John Doe'),
-       (2, 'Jane Doe'),
-       (3, 'Max Mustermann'),
-       (4, 'Erika Mustermann');
+INSERT INTO person (name)
+VALUES ('John Doe'),
+       ('Jane Doe'),
+       ('Max Mustermann'),
+       ('Erika Mustermann');
 
 INSERT INTO public.meeting (person_id, date_time, coordinates)
 VALUES (1, '2022-04-01 12:36:23.000000', 'test cords'),
