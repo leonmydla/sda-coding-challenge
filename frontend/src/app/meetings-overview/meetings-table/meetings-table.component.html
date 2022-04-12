@@ -1,0 +1,19 @@
+<table
+  mat-table
+  [dataSource]="meetings!">
+  <ng-container matColumnDef="dateTime">
+    <th mat-header-cell *matHeaderCellDef>Contact Date &amp; Time</th>
+    <td mat-cell *matCellDef="let element"> {{ getLocaleDateTimeString(element.dateTime) }} </td>
+  </ng-container>
+  <ng-container matColumnDef="contact">
+    <th mat-header-cell *matHeaderCellDef>Contact</th>
+    <td mat-cell *matCellDef="let element"> {{ element.person.name }} </td>
+  </ng-container>
+  <ng-container matColumnDef="coordinates">
+    <th mat-header-cell *matHeaderCellDef>Location</th>
+    <td mat-cell *matCellDef="let element"> {{ element.coordinates }} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['dateTime', 'contact', 'coordinates']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['dateTime', 'contact', 'coordinates'];"></tr>
+</table>
