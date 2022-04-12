@@ -49,7 +49,7 @@ export class AddMeetingComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    const dateTime        = moment(this.formGroup.get('dateTime')?.value).toDate();
+    const dateTime        = moment(this.formGroup.get('dateTime')?.value).utc(true).toDate();
     const coordinates     = this.formGroup.get('coordinates')?.value;
     const personName      = this.formGroup.get('person')?.value;
     const existingPersons = this.persons!!.filter(person => person.name == personName);
