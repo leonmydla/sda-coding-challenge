@@ -36,7 +36,7 @@ export class AddMeetingComponent implements OnInit, OnDestroy {
     private readonly subscriptionManager: SubscriptionManagerService,
     private readonly personApiService: PersonApiService,
     private readonly meetingApiService: MeetingApiService,
-    private readonly consistencyService:ConsistencyService,
+    private readonly consistencyService: ConsistencyService,
     private readonly formBuilder: FormBuilder
   ) { }
 
@@ -63,9 +63,9 @@ export class AddMeetingComponent implements OnInit, OnDestroy {
       0,
       dateTime,
       coordinates
-    )
+    );
 
-    if(existingPersons.length <= 0) {
+    if (existingPersons.length <= 0) {
       const newPerson = new NewPersonDto(personName);
 
       this.createMeetingWithNewPerson(newPerson, newMeeting);
@@ -77,13 +77,20 @@ export class AddMeetingComponent implements OnInit, OnDestroy {
     this.createMeeting(newMeeting);
   }
 
+  insertCoordinates(event: MouseEvent) {
+    event.preventDefault();
+    navigator.geolocation.getCurrentPosition(
+      position => this.formGroup.get('coordinates')?.setValue(`${position.coords.longitude},${position.coords.latitude}`)
+    );
+  }
+
   private createMeetingWithNewPerson(newPerson: NewPersonDto, newMeeting: NewMeetingDto) {
     this.subscriptionManager.watch(
       this,
       this.personApiService.createPerson(newPerson).subscribe(
         {
           next : person => {
-            this.error = true
+            this.error          = true;
             newMeeting.personId = person.id;
 
             this.loadPersons();
