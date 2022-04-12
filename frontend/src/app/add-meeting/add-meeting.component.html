@@ -9,6 +9,15 @@
 
   <ng-template #autocompleteLoaded>
     <mat-card-content>
+
+      <p *ngIf="horribleError">
+        We've encountered a horrible error.
+      </p>
+
+      <p *ngIf="error">
+        An error occured while saving the meeting.
+      </p>
+
       <form [formGroup]="formGroup" (ngSubmit)="submit()">
         <div class="questions">
 
@@ -47,10 +56,6 @@
 
         </div>
       </form>
-
-      <p *ngIf="error">
-        An error occured while saving the meeting.
-      </p>
     </mat-card-content>
   </ng-template>
 </mat-card>
