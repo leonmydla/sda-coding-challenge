@@ -4,7 +4,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class MeetingsApplication
+open class MeetingsApplication
 
 fun main(args: Array<String>) {
     runApplication<MeetingsApplication>(*args)
