@@ -27,6 +27,16 @@ docker-compose up & \
 cd meetings && mvn org.springframework.boot:spring-boot-maven-plugin:run & \
 cd frontend && npm start
 ```
+You may wish to run every command in a dedicated terminal.
+```shell
+docker-compose up
+```
+```shell
+cd meetings && mvn org.springframework.boot:spring-boot-maven-plugin:run
+```
+```shell
+cd frontend && npm start
+```
 
 ## Using the application
 Open [http://127.0.0.1:4200](http://127.0.0.1:4200) in your Browser.
