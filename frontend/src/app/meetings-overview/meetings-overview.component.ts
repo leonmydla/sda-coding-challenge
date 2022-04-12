@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as moment from 'moment/moment';
 import { MeetingDto } from '../common/api/dto/meeting/meeting.dto';
+import { MinimalPersonDto } from '../common/api/dto/person/minimal-person.dto';
 import { MeetingApiService } from '../common/api/meeting/meeting-api.service';
 import { ConsistencyNotification } from '../common/consistency/consistency-notification';
 import { ConsistencyService } from '../common/consistency/consistency.service';
@@ -14,9 +15,19 @@ import { SubscriptionManagerService } from '../common/subscription-manager/subsc
   })
 export class MeetingsOverviewComponent implements OnInit, OnDestroy {
 
-  loading                = true;
-  error                  = false;
-  meetings: MeetingDto[] = [];
+  loading                     = true;
+  error                       = false;
+  meetings: MeetingDto[]      = [];
+  meetingsByPerson: {
+    person: MinimalPersonDto,
+    meetings: MeetingDto[]
+  }[]                         = [];
+  meetingsByDateTime: {
+    dateTime: Date,
+    meetings: MeetingDto[]
+  }[]                         = [];
+  persons: MinimalPersonDto[] = [];
+  groupBy: string             = '';
 
   constructor(
     private readonly subscriptionManager: SubscriptionManagerService,
@@ -37,8 +48,64 @@ export class MeetingsOverviewComponent implements OnInit, OnDestroy {
     return this.meetings.length <= 0;
   }
 
-  getLocaleDateTimeString(dateTime: Date): string {
-    return moment(dateTime).format('DD.MM.YYYY HH:mm');
+  setGroupBy(groupingTarget: string) {
+    this.groupBy = groupingTarget;
+  }
+
+  isGroupedBy(groupingTarget: string): boolean {
+    return this.groupBy == groupingTarget;
+  }
+
+  generateMeetingsGroupedByPerson() {
+    const uniquePersons: MinimalPersonDto[] = [];
+
+    this.meetings
+        .map(it => it.person)
+        .forEach(person => {
+          const personExists = uniquePersons.filter(it => it.id == person.id).length >= 1;
+
+          if (personExists) {
+            return;
+          }
+
+          uniquePersons.push(person);
+        });
+
+    this.meetingsByPerson = uniquePersons.map(
+      person => {
+        return {
+          person  : person,
+          meetings: this.meetings.filter(meeting => meeting.person.id == person.id)
+        };
+      });
+  }
+
+  generateMeetingsGroupedByDateTime() {
+    const uniqueDateTimes: Date[] = [];
+
+    this.meetings
+        .map(it => it.dateTime)
+        .forEach(date => {
+          const dateTimeExists = uniqueDateTimes.filter(it => moment(it).isSame(date, "day")).length >= 1;
+
+          if (dateTimeExists) {
+            return;
+          }
+
+          uniqueDateTimes.push(date);
+        });
+
+    this.meetingsByDateTime = uniqueDateTimes.map(
+      date => {
+        return {
+          dateTime: date,
+          meetings: this.meetings.filter(meeting => moment(meeting.dateTime).isSame(date, "day"))
+        };
+      });
+  }
+
+  getLocaleDateString(dateTime: Date): string {
+    return moment(dateTime).format('DD.MM.YYYY');
   }
 
   private loadMeetings() {
@@ -48,12 +115,24 @@ export class MeetingsOverviewComponent implements OnInit, OnDestroy {
       this,
       this.meetingApiService.getAllMeetings().subscribe(
         {
-          next    : meetings => this.meetings = meetings,
+          next    : meetings => this.updateMeetings(meetings),
           error   : () => this.setError(),
           complete: () => this.loading = false
         }
       )
     );
+  }
+
+  private updateMeetings(meetings: MeetingDto[]) {
+    this.meetings = this.sortMeetingsByDateTime(meetings);
+    this.generateMeetingsGroupedByDateTime();
+    this.generateMeetingsGroupedByPerson();
+  }
+
+  private sortMeetingsByDateTime(meetings: MeetingDto[]): MeetingDto[] {
+    return meetings.sort(
+      (a, b) =>
+        moment(a.dateTime).isBefore(b.dateTime) ? 1 : -1);
   }
 
   private loadMeetingsOnConsistencyNotification() {
